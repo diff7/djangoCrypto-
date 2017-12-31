@@ -1,0 +1,2 @@
+admin login: django
+admin pass: django11
