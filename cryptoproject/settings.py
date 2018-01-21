@@ -25,7 +25,7 @@ SECRET_KEY = 'y0z0j))mk9h4c=zl$*r)4-yu@i!lfpkz9o_rkpfzuhtc4*6me9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [rabbitrun.herokuapp.com]
 
 
 # Application definition
