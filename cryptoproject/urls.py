@@ -23,6 +23,6 @@ urlpatterns = [
 # to add url patterns from coinsapp
 # urls can changed dynamicaly within the app, and the app can be sued in several projects
 # otherwise, we could add patterns here
-    url(r'^coindata/', include('coinsapp.urls')),
+    url(r'^', include('coinsapp.urls')),
 
 ]

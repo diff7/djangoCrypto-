@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'coinsapp.apps.CoinsappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # to include the app in the project, name format is App name with first capital character + Config = .CoinsappConfig
-    'coinsapp.apps.CoinsappConfig',
-    # add django_crontab to the project
-    'django_crontab',
+    'django_celery_beat',
+    'django_extensions',
+    'bootstrap4',
+
 ]
 
 MIDDLEWARE = [
@@ -76,13 +78,10 @@ WSGI_APPLICATION = 'cryptoproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+import dj_database_url
+DATABASE_URL='postgres://czhxvcpjphiqmu:2265ad9ce7bad542dfae8ff8a38cc84d2fc699386897db56be4b053e3e738509@ec2-54-243-253-24.compute-1.amazonaws.com:5432/d4050bcqchvfdq'
+import dj_database_url
+DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
 
 
 # Password validation
@@ -115,14 +114,41 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
 
-CRONJOBS = [
-    ('1 * * * *', 'coinsapp.mytask.my_scheduled_job', '>> /tmp/my_task.log 2>&1'),
-]
+STATIC_URL='/static/'
+
+
+from datetime import timedelta
+# CELERY STUFF
+
+CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
+BROKER_URL = "redis://localhost:6379/2"
+
+
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Nairobi'
+CELERY_ENABLE_UTC = False
+CELERY_IMPORTS=("coinsapp.tasks")
+CELERY_BEAT_SCHEDULE = {
+    # 'get_market': {
+    #     'task': 'coinsapp.tasks.get_all_markets',
+    #     'schedule':  timedelta(minutes=1),
+    #         },
+    'main-task': {
+        'task': 'coinsapp.tasks.get_coin_data',
+        'schedule':  timedelta(minutes=1),
+            },
+    'remove-task': {
+        'task': 'coinsapp.tasks.remove_old_values',
+        'schedule':  timedelta(hours=1),
+            },
+                        }
