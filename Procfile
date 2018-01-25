@@ -1,3 +1,5 @@
 web: gunicorn cryptoproject.wsgi --log-file -
-worker: celery -A cryptoproject worker -events -log level info 
-beat: celery -A cryptoproject beat 
+worker: python manage.py celery worker --loglevel=info
+celery_beat: python manage.py celery beat --loglevel=info
+
+

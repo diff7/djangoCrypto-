@@ -132,10 +132,16 @@ from datetime import timedelta
 # CELERY STUFF
 
 #CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
-REDIS_URL = "redis://h:pd8eda28a09cff6e42fa32d97136fad39107cf92140ba70d3f0aa73d0648baf1b@ec2-35-168-128-198.compute-1.amazonaws.com:57009"
+REDIS_CLOUD_URL = "redis://h:pd8eda28a09cff6e42fa32d97136fad39107cf92140ba70d3f0aa73d0648baf1b@ec2-35-168-128-198.compute-1.amazonaws.com:57009"
 
-import os
+
 import urlparse
+
+BROKER_URL = os.environ.get("REDISCLOUD_URL", "django://")
+
+BROKER_TRANSPORT_OPTIONS = {
+    "max_connections": 2,
+}
 
 redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
 CACHES = {
@@ -149,7 +155,7 @@ CACHES = {
     }
 }
 
-BROKER_POOL_LIMIT = 3
+BROKER_POOL_LIMIT = 1
 
 # CELERY_REDIS_HOST='ec2-35-168-128-198.compute-1.amazonaws.com'
 # CELERY_REDIS_PASSWORD='pd8eda28a09cff6e42fa32d97136fad39107cf92140ba70d3f0aa73d0648baf1b'
