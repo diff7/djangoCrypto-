@@ -169,7 +169,7 @@ CELERY_BEAT_SCHEDULE = {
     #         },
     'main-task': {
         'task': 'coinsapp.tasks.get_coin_data',
-        'schedule':  timedelta(minutes=15),
+        'schedule':  timedelta(minutes=7),
             },
     'removeupdate-task': {
         'task': 'coinsapp.tasks.remove_old_values',
