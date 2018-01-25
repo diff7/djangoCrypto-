@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'y0z0j))mk9h4c=zl$*r)4-yu@i!lfpkz9o_rkpfzuhtc4*6me9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['rabbitrun.herokuapp.com','127.0.0.1']
 
@@ -139,6 +139,8 @@ import urlparse
 BROKER_TRANSPORT_OPTIONS = {
     "max_connections": 2,
 }
+
+UNCOMMENT FOR PROD
 
 redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
 CACHES = {
