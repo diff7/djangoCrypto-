@@ -18,6 +18,9 @@ def remove_old_values():
     c=Value.objects.filter(reqtime__lt=t)
     c.delete()
 
+    for market in btc_list:
+        c=Coin.objects.update_or_create(coin_name=market)
+
 @task()
 def get_coin_data():
     market_data=exchange.fetch_tickers()
@@ -34,10 +37,3 @@ def get_coin_data():
         coin_basevolume=basevolume)
 
         v=Coinproperties.objects.update_or_create (coin=c, defaults={'coin_perchange':percent_change,'coin_change':price_change, 'allvolume':basevolume})
-
-
-@task()
-def get_all_markets():
-
-    for market in btc_list:
-        c=Coin.objects.update_or_create(coin_name=market)

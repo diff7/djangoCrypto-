@@ -25,7 +25,7 @@ SECRET_KEY = 'y0z0j))mk9h4c=zl$*r)4-yu@i!lfpkz9o_rkpfzuhtc4*6me9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['rabbitrun.herokuapp.com']
+ALLOWED_HOSTS = ['rabbitrun.herokuapp.com','127.0.0.1']
 
 
 # Application definition
@@ -131,11 +131,16 @@ STATIC_URL = '/static/'
 from datetime import timedelta
 # CELERY STUFF
 
-CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
-BROKER_URL = "redis://localhost:6379/2"
+#CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
+BROKER_URL = "redis://h:pd8eda28a09cff6e42fa32d97136fad39107cf92140ba70d3f0aa73d0648baf1b@ec2-35-168-128-198.compute-1.amazonaws.com:57009"
 
 
 
+BROKER_POOL_LIMIT = 3
+
+CELERY_REDIS_HOST='ec2-35-168-128-198.compute-1.amazonaws.com'
+CELERY_REDIS_PASSWORD='pd8eda28a09cff6e42fa32d97136fad39107cf92140ba70d3f0aa73d0648baf1b'
+CELERY_REDIS_PORT='57009'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -149,9 +154,9 @@ CELERY_BEAT_SCHEDULE = {
     #         },
     'main-task': {
         'task': 'coinsapp.tasks.get_coin_data',
-        'schedule':  timedelta(minutes=1),
+        'schedule':  timedelta(minutes=15),
             },
-    'remove-task': {
+    'removeupdate-task': {
         'task': 'coinsapp.tasks.remove_old_values',
         'schedule':  timedelta(hours=1),
             },
