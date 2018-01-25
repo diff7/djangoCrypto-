@@ -160,7 +160,7 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Africa/Nairobi'
-CELERY_ENABLE_UTC = False
+CELERY_ENABLE_UTC = True
 CELERY_IMPORTS=("coinsapp.tasks")
 CELERY_BEAT_SCHEDULE = {
     # 'get_market': {
