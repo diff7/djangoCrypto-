@@ -140,7 +140,7 @@ BROKER_TRANSPORT_OPTIONS = {
     "max_connections": 2,
 }
 
-UNCOMMENT FOR PROD
+# UNCOMMENT FOR PROD
 
 redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
 CACHES = {
