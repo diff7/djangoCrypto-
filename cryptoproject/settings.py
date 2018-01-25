@@ -143,7 +143,7 @@ BROKER_TRANSPORT_OPTIONS = {
 redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
 CACHES = {
     "default": {
-         "BACKEND": "redis_cache.RedisCache",
+         "BACKEND": "django_redis.cache.RedisCache",
          "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
          "OPTIONS": {
              "PASSWORD": redis_url.password,
