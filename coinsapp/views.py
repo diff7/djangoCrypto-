@@ -24,7 +24,7 @@ def build_chart(request, coins_id):
         c = Coin.objects.get(id=coins_id)
         x=[]
         y=[]
-        for values in c.value_set.all():
+        for values in c.value_set.order_by('reqtime'):
             x.append(values.reqtime)
             y.append(values.coin_value)
         # create a new plot with a title and axis labels
@@ -56,7 +56,7 @@ def build_chart(request, coins_id):
         x_h=[]
         y_h=[]
         t=datetime.now()-timedelta(minutes=60)
-        for values in c.value_set.filter(reqtime__gt=t):
+        for values in c.value_set.filter(reqtime__gt=t).order_by('reqtime'):
             x_h.append(values.reqtime)
             y_h.append(values.coin_value)
 
@@ -72,8 +72,9 @@ def build_chart(request, coins_id):
         # output_file("lines.html")
         # show(p)
 
-
+        c = Coin.objects.get(id=coins_id)
+        value = c.value_set.order_by('reqtime')
     except Value.DoesNotExist:
         raise Http404("Coin value does not exist")
     return render(request,'coinsapp/coin_chart.html',
-        {'bk_script' : script , 'bk_div' : div, 'h_bk_script':script_h, 'h_bk_div':div_h} )
+        {'bk_script' : script , 'bk_div' : div, 'h_bk_script':script_h, 'h_bk_div':div_h, 'value':value} )
