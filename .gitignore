@@ -1,8 +1,14 @@
+celerybeat.pid
+/home/diff7/Desktop/virtual_crypto/webapp/cryptoproject/settings.py
+*.pyc
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-/home/diff7/Desktop/virtual_crypto/webapp/cryptoproject/settings.py
+
+
 # C extensions
 *.so
 
