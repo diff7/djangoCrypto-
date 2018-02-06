@@ -11,7 +11,7 @@ app = Celery('cryptoproject')
 app.conf.update(
     result_expires=60,
     task_acks_late=True,
-    broker_url='redis://h:pd8eda28a09cff6e42fa32d97136fad39107cf92140ba70d3f0aa73d0648baf1b@ec2-35-168-128-198.compute-1.amazonaws.com:57009',
+    broker_url='redis://localhost:6379',
     #result_backend='redis://localhost',
 
                 )

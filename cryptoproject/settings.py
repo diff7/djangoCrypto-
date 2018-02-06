@@ -142,20 +142,8 @@ BROKER_TRANSPORT_OPTIONS = {
 
 # UNCOMMENT FOR PROD
 
-redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
-CACHES = {
-    "default": {
-         "BACKEND": "redis_cache.RedisCache",
-         "LOCATION": "{0}:{1}".format(redis_url.hostname, redis_url.port),
-         "OPTIONS": {
-             "PASSWORD": redis_url.password,
-             "DB": 0,
-         }
-    }
-}
-
-BROKER_POOL_LIMIT = 1
-
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -169,7 +157,7 @@ CELERY_BEAT_SCHEDULE = {
     #         },
     'main-task': {
         'task': 'coinsapp.tasks.get_coin_data',
-        'schedule':  timedelta(minutes=7),
+        'schedule':  timedelta(minutes=2),
             },
     'removeupdate-task': {
         'task': 'coinsapp.tasks.remove_old_values',
