@@ -75,13 +75,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cryptoproject.wsgi.application'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'donkeydb',
+        'USER': 'donkey',
+        'PASSWORD': '254197',
+        'HOST': '139.59.127.165',
+        'PORT': '5432',
+    }
+}
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-import dj_database_url
-DATABASE_URL='postgres://czhxvcpjphiqmu:2265ad9ce7bad542dfae8ff8a38cc84d2fc699386897db56be4b053e3e738509@ec2-54-243-253-24.compute-1.amazonaws.com:5432/d4050bcqchvfdq'
-import dj_database_url
-DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
+# # Database
+# # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+# import dj_database_url
+# DATABASE_URL='postgres://donkey:254197@139.59.127.165:5432:post/donkeydb'
+# import dj_database_url
+# DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
 
 
 # Password validation
@@ -159,8 +169,12 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'coinsapp.tasks.get_coin_data',
         'schedule':  timedelta(minutes=2),
             },
-    'removeupdate-task': {
+    'remove-task': {
         'task': 'coinsapp.tasks.remove_old_values',
         'schedule':  timedelta(hours=1),
             },
-                        }
+    'update-markers': {
+        'task': 'coinsapp.tasks.update_markers',
+        'schedule':  timedelta(hours=1),
+            },
+                }
