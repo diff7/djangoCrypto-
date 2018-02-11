@@ -41,7 +41,7 @@ def get_coin_data():
 
             d=datetime.now()
             d=d.replace(tzinfo=None)
-            c=Coin.objects.get(coin_name=ticker)
+            c=Coin.objects.get(coin_name=ticker['symbol'])
             v=Value.objects.create(coin=c, coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume)
 
         p=Coinproperties.objects.update_or_create (coin=c, defaults={'coin_perchange':price_change,'coin_change':price_change})
