@@ -3,6 +3,9 @@ celerybeat.pid
 dev_book.ipynb
 *.pyc
 .ipynb_checkpoints
+coinsapp/views.pyc
+coinsapp/models.pyc
+coinsapp/tasks.pyc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
