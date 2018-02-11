@@ -25,7 +25,7 @@ def remove_old_values():
 @task()
 def update_markers():
     for ticker in symbols:
-    c=Coin.objects.update_or_create(coin_name=ticker)
+        c=Coin.objects.update_or_create(coin_name=ticker)
 
 @task()
 def get_coin_data():
