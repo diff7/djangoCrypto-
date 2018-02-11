@@ -1,7 +1,8 @@
 celerybeat.pid
-/home/diff7/Desktop/virtual_crypto/webapp/cryptoproject/settings.py
+/cryptoproject/settings.py
+dev_book.ipynb
 *.pyc
-
+.ipynb_checkpoints
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

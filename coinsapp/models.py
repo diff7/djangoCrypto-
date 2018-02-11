@@ -22,8 +22,8 @@ class Value(models.Model):
     reqtime = models.DateTimeField(default=datetime.now, blank=True)
 
 
-    #def __str__(self):
-        #return u'value: %s time: %s volume: %s' % (self.coin_value, self.reqtime, self.coin_basevolume)
+    def __str__(self):
+        return u'value: %s time: %s volume: %s' % (self.coin_value, self.reqtime, self.coin_basevolume)
 
 
 class Coinproperties(models.Model):

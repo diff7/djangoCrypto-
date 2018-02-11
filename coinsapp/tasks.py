@@ -9,8 +9,11 @@ exchange = ccxt.binance  ({ 'verbose': True })
 exchange.load_markets()
 # Get all currencies vs BTC
 list=exchange.symbols
-btc_list=filter(lambda k: '/BTC' in k, list)
+markers=set(list)
 
+symbols=[]
+for symbol in markers:
+    symbols.append(symbol.split('/')[0])
 
 @task()
 def remove_old_values():
@@ -20,26 +23,24 @@ def remove_old_values():
 
 
 @task()
-
 def update_markers():
-    for market in btc_list:
-        c=Coin.objects.update_or_create(coin_name=market)
+    for ticker in symbols:
+    c=Coin.objects.update_or_create(coin_name=ticker)
 
 @task()
 def get_coin_data():
-    market_data=exchange.fetch_tickers()
-    for ticker in btc_list:
-        price = market_data[ticker]['info']['lastPrice']
-        price_change = market_data[ticker]['info']['priceChange']
-        percent_change = market_data[ticker]['change']
-        basevolume = market_data[ticker]['baseVolume']
+    r = requests.get('https://api.coinmarketcap.com/v1/ticker/?limit=0')
+    market=r.json()
+    for ticker in market:
+        if ticker['symbol'] in symbols:
 
-        d=datetime.now()
-        d=d.replace(tzinfo=None)
-        c=Coin.objects.get(coin_name=ticker)
-        v=Value.objects.create(coin=c, coin_value=price, reqtime=datetime.now(),
-        coin_basevolume=basevolume)
-        t=datetime.now()-timedelta(hours=1)
+            price = ticker['price_usd']
+            price_change = ticker['percent_change_1h']
+            basevolume = ticker['market_cap_usd']
 
+            d=datetime.now()
+            d=d.replace(tzinfo=None)
+            c=Coin.objects.get(coin_name=ticker)
+            v=Value.objects.create(coin=c, coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume)
 
-        #v=Coinproperties.objects.update_or_create (coin=c, defaults={'coin_perchange':percent_change,'coin_change':price_change})
+        p=Coinproperties.objects.update_or_create (coin=c, defaults={'coin_perchange':price_change,'coin_change':price_change})
