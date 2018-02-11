@@ -3,6 +3,7 @@ import ccxt
 from datetime import datetime, timedelta
 from celery import task
 from coinsapp.models import Coin, Value, Coinproperties
+import requests
 
 #connect to an exchange
 exchange = ccxt.binance  ({ 'verbose': True })
