@@ -1,5 +1,4 @@
 celerybeat.pid
-/cryptoproject/settings.py
 dev_book.ipynb
 *.pyc
 .ipynb_checkpoints
