@@ -1,0 +1,40 @@
+{% if properties %}
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg">
+
+<table class="table table-dark  table-bordered">
+<div style="width:100%"> <h3 style="text-align:center; background-color: #212529; color:#99B77B; padding:5px; margin-bottom:0px ;">Coins data from Coinmarketcap</h3></div>
+  <tr>
+<th scope="col">COIN to USD</th>
+<th scope="col" >Volume</th>
+<th scope="col">Price change 1h</th>
+<th scope="col">Volume change 2h</th>
+  </tr>
+
+  {% for coins in coin_list %}
+
+  <tr>
+
+    <th> <a style="color:#99B77B;" href="/{{ coins.id }}/">{{ coins.coin_name }}</a> </th>
+
+    <td> {{ coins.value_set.all.last.coin_basevolume }}</td>
+    <td>{{ coins.coinproperties_set.all.last.coin_perchange }}%</td>
+    <td>{{ coins.coinproperties_set.all.last.volume_change }}%</td>
+
+  </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+    <p>No coins are available.</p>
+{% endif %}
+</div>
+</div>
+</div>
