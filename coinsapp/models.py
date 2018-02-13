@@ -30,5 +30,5 @@ class Coinproperties(models.Model):
     coin = models.ForeignKey('Coin', on_delete=models.CASCADE)
     coin_perchange = models.FloatField(default=0)
     coin_change = models.FloatField(default=0)
-    allvolume = models.FloatField(default=0)
+    volume_change = models.FloatField(default=0)
     #volumechnage_time = models.FloatField(default=0)

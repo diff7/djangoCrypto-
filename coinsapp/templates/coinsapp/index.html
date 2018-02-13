@@ -14,7 +14,8 @@
   <tr>
 <th scope="col">COIN to USD</th>
 <th scope="col" >Volume</th>
-<th scope="col">Price Change 24h</th>
+<th scope="col">Price change 1h</th>
+<th scope="col">Volume change 2h</th>
   </tr>
 
   {% for coins in coin_list %}
@@ -25,6 +26,7 @@
 
     <td> {{ coins.value_set.all.last.coin_basevolume }}</td>
     <td>{{ coins.coinproperties_set.all.last.coin_perchange }}%</td>
+    <td>{{ coins.coinproperties_set.all.last.volume_change }}%</td>
 
   </tr>
     {% endfor %}

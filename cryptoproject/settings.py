@@ -25,7 +25,7 @@ SECRET_KEY = 'y0z0j))mk9h4c=zl$*r)4-yu@i!lfpkz9o_rkpfzuhtc4*6me9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','139.59.127.165']
+ALLOWED_HOSTS = ['127.0.0.1','139.59.127.165']
 
 
 # Application definition
@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'donkeydb',
         'USER': 'donkey',
         'PASSWORD': '254197',
-        'HOST': 'localhost',
+        'HOST': '139.59.127.165',
         'PORT': '',
     }
 }
