@@ -71,12 +71,10 @@ def get_coin_data():
 
                 d=datetime.now()
                 d=d.replace(tzinfo=None)
-                v=Value.objects.create(coin=c, coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume)
-
+                v=c.value_set.create(coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume)
+                v.save()
                 volume=c.value_set.filter(reqtime__gt=t).order_by('reqtime')
                 Last=volume.last().coin_basevolume
                 First=volume.first().coin_basevolume
                 volume_change=(Last-First)/First*100
-
-                p=Coinproperties.objects.update_or_create (coin=c, defaults={'coin_perchange':price_change,'volume_change':volume_change})
-            else: pass
+                p=c.coinproperties_set.update(coin_perchange=price_change,volume_change=volume_change)
