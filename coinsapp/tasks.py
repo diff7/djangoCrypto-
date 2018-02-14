@@ -55,25 +55,28 @@ def update_markers():
 
 @task()
 def get_coin_data():
-    t=datetime.now()-timedelta(hours=3)
+    t=datetime.now()-timedelta(hours=2)
     for ticker in coinmarketcap_data:
         if ticker['symbol'] in my_symbols:
 
-            c=Coin.objects.get(coin_name=ticker['symbol'])
+
             price = ticker['price_usd']
             price_change = ticker['percent_change_1h']
             basevolume = ticker['market_cap_usd']
 
-            volume=c.value_set.filter(reqtime__gt=t).order_by('reqtime')
-            Last=volume.last().coin_basevolume
-            First=volume.first().coin_basevolume
-            volume_change=(Last-First)/First*100
+            c=Coin.objects.get(coin_name=ticker['symbol'])
+
 
             if (price is not None) and (price_change is not None) and (basevolume is not None):
 
                 d=datetime.now()
                 d=d.replace(tzinfo=None)
                 v=Value.objects.create(coin=c, coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume)
+
+                volume=c.value_set.filter(reqtime__gt=t).order_by('reqtime')
+                Last=volume.last().coin_basevolume
+                First=volume.first().coin_basevolume
+                volume_change=(Last-First)/First*100
 
                 p=Coinproperties.objects.update_or_create (coin=c, defaults={'coin_perchange':price_change,'volume_change':volume_change})
             else: pass
