@@ -66,7 +66,7 @@ def get_my_coin_data():
 
 
                 #!!!Publisher.objects.filter(id=1).update(name='Apress Publishing')
-                p=c.coinproperties_set.update(coin_perchange=price_change,volume_change=volume_change)
+                p=for_properties.coinproperties_set.update(coin_perchange=price_change,volume_change=volume_change)
 
 
 def update_my_markers():
