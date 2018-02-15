@@ -54,15 +54,17 @@ def get_my_coin_data():
 
                 d=datetime.now()
                 d=d.replace(tzinfo=None)
-                c=Coin.objects.get(coin_name=ticker['symbol'])
-                v=c.value_set.create(coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume)
+                for_values=Coin.objects.get(coin_name=ticker['symbol'])
+                v=for_values.value_set.create(coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume)
                 v.save()
-                volume=c.value_set.filter(reqtime__gt=t).order_by('reqtime')
+
+                for_properties=Coin.objects.get(coin_name=ticker['symbol'])
+                volume=for_properties.value_set.filter(reqtime__gt=t).order_by('reqtime')
                 Last=volume.last().coin_basevolume
                 First=volume.first().coin_basevolume
                 volume_change=(Last-First)/First*100
 
-                c=Coin.objects.get(coin_name=ticker['symbol'])
+
                 #!!!Publisher.objects.filter(id=1).update(name='Apress Publishing')
                 p=c.coinproperties_set.update(coin_perchange=price_change,volume_change=volume_change)
 
