@@ -63,15 +63,20 @@ def get_my_coin_data():
 
 
 def make_coin_properties():
-    t=datetime.now()-timedelta(hours=2)
+    t=datetime.now()-timedelta(hours=1)
     all_coins=Coin.objects.all()
     for ticker in all_coins:
-        volume=all_coins.value_set.filter(reqtime__gt=t).order_by('reqtime')
-        Last=volume.last().coin_basevolume
-        First=volume.first().coin_basevolume
-        volume_change=(Last-First)/First*100
+        volume=ticker.value_set.filter(reqtime__gt=t).order_by('reqtime')
+        Last_volume=volume.last().coin_basevolume
+        First_volume=volume.first().coin_basevolume
+
+        Last_price=volume.last().coin_value
+        First_price=volume.first().coin_value
+
+        price_change=(Last_price-First_price)/First_price*100
+        volume_change=(Last_volume-First_volume)/First_volume*100
         #!!!Publisher.objects.filter(id=1).update(name='Apress Publishing')
-        p=for_properties.coinproperties_set.update(coin_perchange=price_change,volume_change=volume_change)
+        p=ticker.coinproperties_set.update(coin_perchange=price_change,volume_change=volume_change)
 
 
 
