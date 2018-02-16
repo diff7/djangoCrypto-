@@ -7,6 +7,8 @@ dev_book.ipynb
 coinsapp/views.pyc
 coinsapp/models.pyc
 coinsapp/tasks.pyc
+coinsapp/migrations/*.*
+coinsapp/migrations/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
