@@ -31,6 +31,6 @@ class Coinproperties(models.Model):
     coin_perchange = models.FloatField(default=0)
     coin_change = models.FloatField(default=0)
     volume_change = models.FloatField(default=0)
-    coin_change_half = models.FloatField(default=0)
-    volume_change_half = models.FloatField(default=0)
+    coin_changehalf = models.FloatField(default=0)
+    volume_changehalf = models.FloatField(default=0)
     #volumechnage_time = models.FloatField(default=0)

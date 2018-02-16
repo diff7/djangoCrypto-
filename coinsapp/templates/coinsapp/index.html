@@ -13,7 +13,7 @@
 <div style="width:100%"> <h3 style="text-align:center; background-color: #212529; color:#99B77B; padding:5px; margin-bottom:0px ;">Coins data from Coinmarketcap</h3></div>
   <tr>
 <th scope="col">COIN to USD</th>
-<th scope="col" >Volume</th>
+<th scope="col" >price</th>
 <th scope="col">Price change 1h</th>
 <th scope="col">Volume change 1h</th>
 <th scope="col">Price change 30 min</th>
@@ -26,11 +26,11 @@
 
     <th> <a style="color:#99B77B;" href="/{{ coins.id }}/">{{ coins.coin_name }}</a> </th>
 
-    <td> {{ coins.value_set.all.last.coin_basevolume }}</td>
+    <td> {{ coins.value_set.all.last.coin_value }} $</td>
     <td>{{ coins.coinproperties_set.all.last.coin_perchange }}%</td>
     <td>{{ coins.coinproperties_set.all.last.volume_change }}%</td>
-    <td>{{ coins.coinproperties_set.all.last.coin_change_half }}%</td>
-    <td>{{ coins.coinproperties_set.all.last.volume_change_half }}%</td>
+    <td>{{ coins.coinproperties_set.all.last.coin_changehalf }}%</td>
+    <td>{{ coins.coinproperties_set.all.last.volume_changehalf }}%</td>
 
   </tr>
     {% endfor %}

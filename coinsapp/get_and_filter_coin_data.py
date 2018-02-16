@@ -33,8 +33,25 @@ def get_my_symbols():
     my_symbols=[]
     my_symbols=[s for s in binance_symbols_clean if s in coinmarkectcap_symbols]
 
+    if my_symbols in
+
     return(my_symbols)
 
+def update_my_markers():
+    my_symbols=get_my_symbols()
+
+    coins=Coin.objects.all().values('coin_name')
+    coins_to_delete = [c['coin_name'] for c in coins if c['coin_name'] not in my_symbols]
+    print(my_symbols)
+    print(coins_to_delete)
+
+    for ticker in coins_to_delete:
+        coin=Coin.objects.get(coin_name=ticker)
+        coin.delete()
+        print(ticker)
+
+    for ticker in  my_symbols:
+        c=Coin.objects.update_or_create(coin_name=ticker)
 
 def get_my_coin_data():
     t=datetime.now()-timedelta(hours=2)
@@ -46,7 +63,6 @@ def get_my_coin_data():
         if ticker['symbol'] in my_symbols:
 
             price = ticker['price_usd']
-            price_change = ticker['percent_change_1h']
             basevolume = ticker['market_cap_usd']
 
 
@@ -68,45 +84,37 @@ def make_coin_properties():
     all_coins=Coin.objects.all()
     for ticker in all_coins:
         volume=ticker.value_set.filter(reqtime__gt=t).order_by('reqtime')
+
+        #VOLUME CHANEG 1 HOUR
         Last_volume=volume.last().coin_basevolume
         First_volume=volume.first().coin_basevolume
+        volume_change=(Last_volume-First_volume)/First_volume*100
 
+        #PRICE CHANGE 1 HOUR
         Last_price=volume.last().coin_value
         First_price=volume.first().coin_value
-
         price_change=(Last_price-First_price)/First_price*100
-        volume_change=(Last_volume-First_volume)/First_volume*100
+
+
         #!!!Publisher.objects.filter(id=1).update(name='Apress Publishing')
         p=ticker.coinproperties_set.update(coin_perchange=price_change,volume_change=volume_change)
 
         volume_hafl=ticker.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
 
+        #PRICE CHANEG 30 MIN
         Last_price_half=volume_hafl.last().coin_value
         First_price_half=volume_hafl.first().coin_value
+        price_change_half=(Last_price_half-First_price_half)/First_price_half*100
 
+        #PRICE CHANGE 30 MIN
         Last_volume_half=volume.last().coin_basevolume
         First_volume_half=volume.first().coin_basevolume
+        volume_changehalf=(Last_volume_half-First_volume_half)/First_volume_half*100
 
-        price_change_half=(Last_price_half-First_price_half)/First_price_half*100
-        volume_change_half=(Last_volume_half-First_volume_half)/First_volume_half*100
-
-        p_half=ticker.coinproperties_set.update(coin_change_half=price_change_half,volume_change_half=volume_change_half)
+        p_half=ticker.coinproperties_set.update(coin_changehalf=price_changehalf,volume_changehalf=volume_changehalf)
 
 
-def update_my_markers():
-    my_symbols=get_my_symbols()
-    coins=Coin.objects.all().values('coin_name')
-    coins_to_delete = [c['coin_name'] for c in coins if c['coin_name'] not in my_symbols]
-    print(my_symbols)
-    print(coins_to_delete)
 
-    for ticker in coins_to_delete:
-        coin=Coin.objects.get(coin_name=ticker)
-        coin.delete()
-        print(ticker)
-
-    for ticker in  my_symbols:
-        c=Coin.objects.update_or_create(coin_name=ticker)
 
 def delete_old_values():
     t=datetime.now()-timedelta(hours=5)
