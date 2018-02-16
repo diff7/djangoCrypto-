@@ -80,6 +80,7 @@ def make_coin_properties():
         p=ticker.coinproperties_set.update(coin_perchange=price_change,volume_change=volume_change)
 
         volume_hafl=ticker.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
+
         Last_price_half=volume_hafl.last().coin_value
         First_price_half=volume_hafl.first().coin_value
 

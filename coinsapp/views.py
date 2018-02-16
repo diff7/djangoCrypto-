@@ -77,4 +77,4 @@ def build_chart(request, coins_id):
     except Value.DoesNotExist:
         raise Http404("Coin value does not exist")
     return render(request,'coinsapp/coin_chart.html',
-        {'bk_script' : script , 'bk_div' : div, 'h_bk_script':script_h, 'h_bk_div':div_h, 'value':value} )
+        {'bk_script' : script , 'bk_div' : div, 'h_bk_script':script_h, 'h_bk_div':div_h, 'value':value, 'coin_name':coin_name} )
