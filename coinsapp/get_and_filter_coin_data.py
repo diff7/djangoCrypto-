@@ -4,7 +4,6 @@ from coinsapp.models import Coin, Value, Coinproperties
 import requests
 from datetime import datetime, timedelta
 from coinsapp.models import Coin, Value, Coinproperties
-from datetime import datetime, timedelta
 
 def get_coinmarketcap():
     r = requests.get('https://api.coinmarketcap.com/v1/ticker/?limit=0')
@@ -32,8 +31,6 @@ def get_my_symbols():
 
     my_symbols=[]
     my_symbols=[s for s in binance_symbols_clean if s in coinmarkectcap_symbols]
-
-    if my_symbols in
 
     return(my_symbols)
 
