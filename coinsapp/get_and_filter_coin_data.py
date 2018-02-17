@@ -95,8 +95,8 @@ def get_my_coin_data():
 def make_coin_properties():
     t=datetime.now()-timedelta(hours=2)
     t_half=datetime.now()-timedelta(minutes=30)
-    all_coins=Coin.objects.all()
-    for ticker in all_coins:
+    coins=Coin.objects.all()
+    for ticker in coins:
         volume=ticker.value_set.filter(reqtime__gt=t).order_by('reqtime')
 
             #VOLUME CHANEG 1 HOUR
