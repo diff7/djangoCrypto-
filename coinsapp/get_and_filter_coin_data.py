@@ -63,7 +63,7 @@ def get_my_coin_data():
             basevolume = ticker['market_cap_usd']
 
 
-            if (price is not None) and (price_change is not None) and (basevolume is not None):
+            if (price is not None) and (basevolume is not None):
 
                 d=datetime.now()
                 d=d.replace(tzinfo=None)
@@ -99,14 +99,14 @@ def make_coin_properties():
         volume_hafl=ticker.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
 
         #PRICE CHANEG 30 MIN
-        Last_price_half=volume_hafl.last().coin_value
-        First_price_half=volume_hafl.first().coin_value
-        price_change_half=(Last_price_half-First_price_half)/First_price_half*100
+        Last_pricehalf=volume_hafl.last().coin_value
+        First_pricehalf=volume_hafl.first().coin_value
+        price_changehalf=(Last_pricehalf-First_pricehalf)/First_pricehalf*100
 
         #PRICE CHANGE 30 MIN
-        Last_volume_half=volume.last().coin_basevolume
-        First_volume_half=volume.first().coin_basevolume
-        volume_changehalf=(Last_volume_half-First_volume_half)/First_volume_half*100
+        Last_volumehalf=volume.last().coin_basevolume
+        First_volumehalf=volume.first().coin_basevolume
+        volume_changehalf=(Last_volumehalf-First_volumehalf)/First_volumehalf*100
 
         p_half=ticker.coinproperties_set.update(coin_changehalf=price_changehalf,volume_changehalf=volume_changehalf)
 
