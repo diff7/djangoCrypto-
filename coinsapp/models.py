@@ -7,8 +7,8 @@ from django.db import models
 
 
 class Coin(models.Model):
-    coin_name = models.CharField(max_length=10)
-
+    coin_name = models.CharField(max_length=40)
+    
     def __str__(self):
         return self.coin_name
 
