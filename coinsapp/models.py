@@ -8,14 +8,14 @@ from django.db import models
 
 class Coin(models.Model):
     coin_name = models.CharField(max_length=40)
-    
+
     def __str__(self):
         return self.coin_name
 
 class Value(models.Model):
 
-    coin_basevolume = models.FloatField(default=0)
     coin = models.ForeignKey('Coin', on_delete=models.CASCADE)
+    coin_basevolume = models.FloatField(default=0)
     # ForeignKey, That tells Django each Value is related to a single Coin
     coin_value = models.FloatField(default=0)
     # FloatField is the same as DecimalField but different
