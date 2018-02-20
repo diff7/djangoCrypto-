@@ -60,13 +60,19 @@ def update_my_markers():
     all_names=get_coin_ful_name()
     my_symbols=get_my_symbols()
     for name in all_names:
-        c=Coin.objects.update_or_create(coin_name=name)
+        c=Coin.objects.update_or_create(coin_ticker=name)
 
-    coins=Coin.objects.all().values('coin_name')
-    coins_to_delete = [c['coin_name'] for c in coins if c['coin_name'] not in all_names]
 
+    for row in Coin.objects.all():
+        if Coin.objects.filter(coin_ticker=row.coin_ticker).count() > 1:
+            row.delete()
+
+    coins=Coin.objects.all().values('coin_ticker')
+    coins_to_delete = [c['coin_ticker'] for c in coins if c['coin_ticker'] not in all_names]
+
+    print(coins_to_delete)
     for ticker in coins_to_delete:
-        coin=Coin.objects.filter(coin_name=ticker)
+        coin=Coin.objects.filter(coin_ticker=ticker)
         coin.delete()
 
 
@@ -88,7 +94,7 @@ def get_my_coin_data():
 
                 d=datetime.now()
                 d=d.replace(tzinfo=None)
-                for_values=Coin.objects.get(coin_name=str(ticker['symbol'])+" "+str(ticker['name']))
+                for_values=Coin.objects.get(coin_ticker=str(ticker['symbol'])+" "+str(ticker['name']))
 
 
                 v=for_values.value_set.create(coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume)

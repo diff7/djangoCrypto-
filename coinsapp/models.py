@@ -7,10 +7,10 @@ from django.db import models
 
 
 class Coin(models.Model):
-    coin_name = models.CharField(max_length=40)
+    coin_ticker = models.CharField(max_length=40)
 
     def __str__(self):
-        return self.coin_name
+        return self.coin_ticker
 
 class Value(models.Model):
 

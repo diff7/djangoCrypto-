@@ -12,7 +12,7 @@ from numpy import convolve
 def all_coindata(request):
 
     coin_list = Coin.objects.order_by( '-coinproperties__volume_change')
-    properties = Coinproperties.objects.order_by('coin_change', 'coin_changehalf')
+    properties = Coinproperties.objects.order_by('coin_changehalf')
     # value_list_recent= value_list_recent["coin_value"]
     context = {'coin_list': coin_list, 'properties':properties}
     return render(request, 'coinsapp/index.html', context)
@@ -40,13 +40,13 @@ def build_chart(request, coins_id):
                 nan = float('nan')
                 sma.insert(0,nan)
             return sma
-        coin_name=c.coin_name
+        coin_ticker=c.coin_ticker
         sma = movingaverage (y, 5)
-        p = figure(title=c.coin_name, x_axis_label='Time', y_axis_label='Price', x_axis_type='datetime', height=250)
+        p = figure(title=c.coin_ticker, x_axis_label='Time', y_axis_label='Price', x_axis_type='datetime', height=250)
         p.line( x,sma, legend="SMA", line_color="red", line_width=2 )
         p.toolbar.logo = None
         # add a line renderer with legend and line thickness
-        p.line(x, y, legend=c.coin_name, line_width=2)
+        p.line(x, y, legend=c.coin_ticker, line_width=2)
         p.circle(x, y, fill_color="white", size=8)
         p.sizing_mode = 'scale_width'
         script, div = components(p, CDN)
@@ -60,10 +60,10 @@ def build_chart(request, coins_id):
             y_h.append(values.coin_value)
 
         sma_ = movingaverage (y, 5)
-        p_h = figure(title=c.coin_name, x_axis_label='Time', y_axis_label='Price', x_axis_type='datetime', height=250)
+        p_h = figure(title=c.coin_ticker, x_axis_label='Time', y_axis_label='Price', x_axis_type='datetime', height=250)
         p_h.toolbar.logo = None
         # add a line renderer with legend and line thickness
-        p_h.line(x_h, y_h, legend=c.coin_name, line_width=2)
+        p_h.line(x_h, y_h, legend=c.coin_ticker, line_width=2)
         p_h.circle(x_h, y_h, fill_color="white", size=8)
         p_h.sizing_mode = 'scale_width'
 
@@ -76,4 +76,4 @@ def build_chart(request, coins_id):
     except Value.DoesNotExist:
         raise Http404("Coin value does not exist")
     return render(request,'coinsapp/coin_chart.html',
-        {'bk_script' : script , 'bk_div' : div, 'h_bk_script':script_h, 'h_bk_div':div_h, 'value':value, 'coin_name':coin_name} )
+        {'bk_script' : script , 'bk_div' : div, 'h_bk_script':script_h, 'h_bk_div':div_h, 'value':value, 'coin_ticker':coin_ticker} )

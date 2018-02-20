@@ -14,8 +14,8 @@
   <tr>
 <th scope="col">COIN to USD</th>
 <th scope="col" >price</th>
-<th scope="col">price change 2h</th>
-<th scope="col">volume change 2h</th>
+<th scope="col">price change 2 h</th>
+<th scope="col">volume change 2 h</th>
 <th scope="col">price change 30 min</th>
 <th scope="col">volume change 30 min</th>
   </tr>
@@ -24,7 +24,7 @@
 
   <tr>
 
-    <th> <a style="color:#99B77B;" href="/{{ coins.id }}/">{{ coins.coin_name }}</a> </th>
+    <th> <a style="color:#99B77B;" href="/{{ coins.id }}/">{{ coins.coin_ticker }}</a> </th>
 
     <td> {{ coins.value_set.all.last.coin_value }} $</td>
     <td>{{ coins.coinproperties_set.all.last.coin_change }}%</td>
