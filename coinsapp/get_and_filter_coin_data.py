@@ -104,11 +104,11 @@ def get_my_coin_data():
 def make_coin_properties():
     t=datetime.now()-timedelta(hours=2)
     t_half=datetime.now()-timedelta(minutes=30)
-    coin=Coin.objects.exclude(value__coin_value__isnull=True, value__coin_basevolume__isnull=True )
+    coins=Coin.objects.exclude(value__coin_value__isnull=True, value__coin_basevolume__isnull=True )
 
-    for ticker in coin:
+    for symbol in coins:
 
-        volume=ticker.value_set.filter(reqtime__gt=t).order_by('reqtime')
+        volume=symbol.value_set.filter(reqtime__gt=t).order_by('reqtime')
 
 
         #VOLUME CHANGE 1 HOUR
@@ -122,7 +122,7 @@ def make_coin_properties():
         Firstprice=volume.last().coin_value
         price_change=(Lastprice-Firstprice)/Firstprice*100
 
-        volume_half=ticker.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
+        volume_half=symbol.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
 
         #VOLUME CHANGE 30 MIN
         Last_volumehalf=volume_half.first().coin_basevolume
@@ -134,7 +134,7 @@ def make_coin_properties():
         First_pricehalf=volume_half.last().coin_value
         price_changehalf=(Last_pricehalf-First_pricehalf)/First_pricehalf*100
 
-        p=ticker.coinproperties_set.update_or_create(coin_change=price_change,volume_change=volumechange, coin_changehalf=price_changehalf,volume_changehalf=volume_changehalf)
+        p=symbol.coinproperties_set.update_or_create(coin_change=price_change,volume_change=volumechange, coin_changehalf=price_changehalf,volume_changehalf=volume_changehalf)
 
 
 
