@@ -1,10 +1,12 @@
-{% if  coin_list %}
+{% if  coins_list %}
 {# Load the tag library #}
 {% load bootstrap4 %}
 
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg">
@@ -20,7 +22,7 @@
 <th scope="col">volume change 30 min</th>
   </tr>
 
-  {% for coins in coin_list %}
+  {% for coins in coins_list %}
 
   <tr>
 

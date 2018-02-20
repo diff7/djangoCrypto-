@@ -61,10 +61,9 @@ def update_my_markers():
     my_symbols=get_my_symbols()
     for name in all_names:
         c=Coin.objects.update_or_create(coin_ticker=name)
-
-
-    for row in Coin.objects.all():
-        if Coin.objects.filter(coin_ticker=row.coin_ticker).count() > 1:
+        print(name)
+        if Coin.objects.filter(coin_ticker=str(name)).count() > 1:
+            print(Coin.objects.filter(coin_ticker=name).count())
             row.delete()
 
     coins=Coin.objects.all().values('coin_ticker')
@@ -112,33 +111,33 @@ def make_coin_properties():
 
 
         #VOLUME CHANGE 1 HOUR
-        Firstvolume=volume.last().coin_basevolume
-        Lastvolume=volume.first().coin_basevolume
+        Firstvolume=volume.first().coin_basevolume
+        Lastvolume=volume.last().coin_basevolume
 
-        volumechange=(Lastvolume-Firstvolume)/Firstvolume*100
+        volumechange=(Firstvolume-Lastvolume)/Firstvolume*100
 
         #PRICE CHANGE 1 HOUR
-        Lastprice=volume.first().coin_value
-        Firstprice=volume.last().coin_value
-        price_change=(Lastprice-Firstprice)/Firstprice*100
+        Lastprice=volume.last().coin_value
+        Firstprice=volume.first().coin_value
+        price_change=(Firstprice-Lastprice)/Firstprice*100
 
         volume_half=symbol.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
 
         #VOLUME CHANGE 30 MIN
-        Last_volumehalf=volume_half.first().coin_basevolume
-        First_volumehalf=volume_half.last().coin_basevolume
-        volume_changehalf=(Last_volumehalf-First_volumehalf)/First_volumehalf*100
+        Last_volumehalf=volume_half.last().coin_basevolume
+        First_volumehalf=volume_half.first().coin_basevolume
+        volume_changehalf=(First_volumehalf-Last_volumehalf)/First_volumehalf*100
 
         #PRICE CHANEG 30 MIN
-        Last_pricehalf=volume_half.first().coin_value
-        First_pricehalf=volume_half.last().coin_value
-        price_changehalf=(Last_pricehalf-First_pricehalf)/First_pricehalf*100
+        Last_pricehalf=volume_half.last().coin_value
+        First_pricehalf=volume_half.first().coin_value
+        price_changehalf=(First_pricehalf-Last_pricehalf)/First_pricehalf*100
 
-        p=symbol.coinproperties_set.update_or_create(coin_change=price_change,volume_change=volumechange, coin_changehalf=price_changehalf,volume_changehalf=volume_changehalf)
+        p=symbol.coinproperties_set.update_or_create(coin=symbol,  defaults={'coin_change':price_change, 'volume_change':volumechange,'coin_changehalf':price_changehalf, 'volume_changehalf':volume_changehalf  })
 
 
 
 def delete_old_values():
-    t=datetime.now()-timedelta(hours=5)
+    t=datetime.now()-timedelta(hours=12)
     c=Value.objects.filter(reqtime__lt=t)
     c.delete()
