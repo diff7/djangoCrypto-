@@ -133,7 +133,7 @@ def make_coin_properties():
         First_pricehalf=volume_half.first().coin_value
         price_changehalf=(First_pricehalf-Last_pricehalf)/First_pricehalf*100
 
-        p=symbol.coinproperties_set.update_or_create(coin=symbol,  defaults={'coin_change':price_change, 'volume_change':volumechange,'coin_changehalf':price_changehalf, 'volume_changehalf':volume_changehalf  })
+        p=symbol.coinproperties_set.update_or_create(coin=symbol.coin_ticker,  defaults={'coin_change':price_change, 'volume_change':volumechange,'coin_changehalf':price_changehalf, 'volume_changehalf':volume_changehalf  })
 
 
 
