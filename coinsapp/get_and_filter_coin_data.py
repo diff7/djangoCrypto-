@@ -64,7 +64,7 @@ def update_my_markers():
 
     coins=Coin.objects.all().values('coin_name')
     coins_to_delete = [c['coin_name'] for c in coins if c['coin_name'] not in all_names]
-    
+
     for ticker in coins_to_delete:
         coin=Coin.objects.filter(coin_name=ticker)
         coin.delete()
@@ -112,10 +112,9 @@ def make_coin_properties():
         volumechange=(Lastvolume-Firstvolume)/Firstvolume*100
 
         #PRICE CHANGE 1 HOUR
-        Firstprice=volume.last().coin_value
         Lastprice=volume.first().coin_value
-
-        pricechange=(Lastprice-Firstprice)/Firstprice*100
+        Firstprice=volume.last().coin_value
+        price_change=(Lastprice-Firstprice)/Firstprice*100
 
         volume_half=ticker.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
 
@@ -129,7 +128,7 @@ def make_coin_properties():
         First_pricehalf=volume_half.reverse()[0].coin_value
         price_changehalf=(Last_pricehalf-First_pricehalf)/First_pricehalf*100
 
-        p=ticker.coinproperties_set.update_or_create(coin_change=pricechange,volume_change=volumechange, coin_changehalf=price_changehalf,volume_changehalf=volume_changehalf)
+        p=ticker.coinproperties_set.update_or_create(coin_change=price_change,volume_change=volumechange, coin_changehalf=price_changehalf,volume_changehalf=volume_changehalf)
 
 
 
