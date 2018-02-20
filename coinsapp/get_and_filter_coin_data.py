@@ -125,13 +125,13 @@ def make_coin_properties():
         volume_half=ticker.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
 
         #VOLUME CHANGE 30 MIN
-        Last_volumehalf=volume_half[0].coin_basevolume
-        First_volumehalf=volume_half.reverse()[0].coin_basevolume
+        Last_volumehalf=volume_half.first().coin_basevolume
+        First_volumehalf=volume_half.last().coin_basevolume
         volume_changehalf=(Last_volumehalf-First_volumehalf)/First_volumehalf*100
 
         #PRICE CHANEG 30 MIN
-        Last_pricehalf=volume_half[0].coin_value
-        First_pricehalf=volume_half.reverse()[0].coin_value
+        Last_pricehalf=volume_half.first().coin_value
+        First_pricehalf=volume_half.last().coin_value
         price_changehalf=(Last_pricehalf-First_pricehalf)/First_pricehalf*100
 
         p=ticker.coinproperties_set.update_or_create(coin_change=price_change,volume_change=volumechange, coin_changehalf=price_changehalf,volume_changehalf=volume_changehalf)
