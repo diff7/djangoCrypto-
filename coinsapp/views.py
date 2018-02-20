@@ -11,7 +11,7 @@ from numpy import convolve
 
 def all_coindata(request):
 
-    coins_list = Coin.objects.all()
+    coins_list = Coin.objects.order_by('-coinproperties__coin_changehalf')
     properties = Coinproperties.objects.all()
     # value_list_recent= value_list_recent["coin_value"]
     context = {'coins_list': coins_list, 'properties':properties}

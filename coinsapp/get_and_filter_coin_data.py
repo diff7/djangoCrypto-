@@ -113,25 +113,24 @@ def make_coin_properties():
         #VOLUME CHANGE 1 HOUR
         Firstvolume=volume.first().coin_basevolume
         Lastvolume=volume.last().coin_basevolume
-
-        volumechange=(Firstvolume-Lastvolume)/Firstvolume*100
+        volumechange=(Lastvolume-Firstvolume)/Firstvolume*100
 
         #PRICE CHANGE 1 HOUR
         Lastprice=volume.last().coin_value
         Firstprice=volume.first().coin_value
-        price_change=(Firstprice-Lastprice)/Firstprice*100
+        price_change=(Lastprice-Firstprice)/Firstprice*100
 
         volume_half=symbol.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
 
         #VOLUME CHANGE 30 MIN
         Last_volumehalf=volume_half.last().coin_basevolume
         First_volumehalf=volume_half.first().coin_basevolume
-        volume_changehalf=(First_volumehalf-Last_volumehalf)/First_volumehalf*100
+        volume_changehalf=(Last_volumehalf-First_volumehalf)/First_volumehalf*100
 
         #PRICE CHANEG 30 MIN
         Last_pricehalf=volume_half.last().coin_value
         First_pricehalf=volume_half.first().coin_value
-        price_changehalf=(First_pricehalf-Last_pricehalf)/First_pricehalf*100
+        price_changehalf=(Last_pricehalf-First_pricehalf)/First_pricehalf*100
 
         p=symbol.coinproperties_set.update_or_create(coin=symbol.coin_ticker,  defaults={'coin_change':price_change, 'volume_change':volumechange,'coin_changehalf':price_changehalf, 'volume_changehalf':volume_changehalf  })
 
