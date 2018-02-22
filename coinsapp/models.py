@@ -20,6 +20,7 @@ class Value(models.Model):
     coin_value = models.FloatField(default=0)
     # FloatField is the same as DecimalField but different
     reqtime = models.DateTimeField(default=datetime.now, blank=True)
+    sma = models.FloatField(default=0)
 
 
     def __str__(self):

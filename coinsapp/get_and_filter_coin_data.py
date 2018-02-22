@@ -93,10 +93,17 @@ def get_my_coin_data():
 
                 d=datetime.now()
                 d=d.replace(tzinfo=None)
+                for_sma=Coin.objects.get(coin_ticker=str(ticker['symbol'])+" "+str(ticker['name']))
+
+                window=20
+                sum=0
+
+                for  price in for_sma.value_set.order_by('reqtime').reverse()[:window]:
+                    sum=+price.coin_value
+                sum=sum/20
+                
                 for_values=Coin.objects.get(coin_ticker=str(ticker['symbol'])+" "+str(ticker['name']))
-
-
-                v=for_values.value_set.create(coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume)
+                v=for_values.value_set.create(coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume,)
                 v.save()
 
 

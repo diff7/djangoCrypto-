@@ -41,7 +41,7 @@ def build_chart(request, coins_id):
                 sma.insert(0,nan)
             return sma
         coin_ticker=c.coin_ticker
-        sma = movingaverage (y, 5)
+        sma = movingaverage (y, 20)
         p = figure(title=c.coin_ticker, x_axis_label='Time', y_axis_label='Price', x_axis_type='datetime', height=250)
         p.line( x,sma, legend="SMA", line_color="red", line_width=2 )
         p.toolbar.logo = None
