@@ -59,6 +59,7 @@ def build_chart(request, coins_id):
         p.line(x, y, legend=c.coin_ticker, line_width=2)
         p.circle(x, y, fill_color="white", size=8)
         p.sizing_mode = 'scale_width'
+        p.legend.location = "bottom_left"
         script, div = components(p, CDN)
 
 
@@ -76,7 +77,7 @@ def build_chart(request, coins_id):
         p_h.line(x_h, y_h, legend=c.coin_ticker, line_width=2)
         p_h.circle(x_h, y_h, fill_color="white", size=8)
         p_h.sizing_mode = 'scale_width'
-
+        p_h.legend.location = "bottom_left"
         script_h, div_h = components(p_h)
         # output_file("lines.html")
         # show(p)
