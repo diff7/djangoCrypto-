@@ -97,8 +97,9 @@ def get_my_coin_data():
 
                 window=20
                 sum=0
-                for  smas in coins.value_set.order_by('-reqtime')[:window]:
-                    sum=sum+smas.coin_value
+                if coins.value_set.order_by('-reqtime')[:window].count()>window:
+                    for  smas in coins.value_set.order_by('-reqtime')[:window]:
+                        sum=sum+smas.coin_value
                 sum=sum/20
 
 

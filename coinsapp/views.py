@@ -23,10 +23,16 @@ def build_chart(request, coins_id):
         c = Coin.objects.get(id=coins_id)
         x=[]
         y=[]
+        sMa=[]
+        nan = float('nan')
         for values in c.value_set.order_by('reqtime'):
             x.append(values.reqtime)
             y.append(values.coin_value)
-        # create a new plot with a title and axis labels
+            if values.sma == 0.0:
+                sMa.append(nan)
+            else:
+                sMa.append(values.sma)
+    # create a new plot with a title and axis labels
 
 
         def movingaverage (values, window):
@@ -40,10 +46,14 @@ def build_chart(request, coins_id):
                 nan = float('nan')
                 sma.insert(0,nan)
             return sma
+
         coin_ticker=c.coin_ticker
         sma = movingaverage (y, 20)
         p = figure(title=c.coin_ticker, x_axis_label='Time', y_axis_label='Price', x_axis_type='datetime', height=250)
         p.line( x,sma, legend="SMA", line_color="red", line_width=2 )
+
+        p.line( x,sMa, legend="SMAdB", line_color="blue", line_width=2 )
+
         p.toolbar.logo = None
         # add a line renderer with legend and line thickness
         p.line(x, y, legend=c.coin_ticker, line_width=2)
