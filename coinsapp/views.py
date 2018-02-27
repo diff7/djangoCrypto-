@@ -50,9 +50,9 @@ def build_chart(request, coins_id):
         coin_ticker=c.coin_ticker
         sma = movingaverage (y, 20)
         p = figure(title=c.coin_ticker, x_axis_label='Time', y_axis_label='Price', x_axis_type='datetime', height=250)
-        #p.line( x,sma, legend="SMA", line_color="red", line_width=2 )
+        p.line( x,sma, legend="SMA", line_color="red", line_width=2 )
 
-        p.line( x,sMa, legend="SMAdB", line_color="blue", line_width=2 )
+        p.circle( x,sMa, legend="SMAdB", fill_color="blue", size=8 )
 
         p.toolbar.logo = None
         # add a line renderer with legend and line thickness
