@@ -63,7 +63,7 @@ def update_my_markers():
         c=Coin.objects.update_or_create(coin_ticker=name)
         print(name)
         if Coin.objects.filter(coin_ticker=str(name)).count() > 1:
-            print(Coin.objects.filter(coin_ticker=name).count())
+
             row.delete()
 
     coins=Coin.objects.all().values('coin_ticker')
@@ -95,7 +95,7 @@ def get_my_coin_data():
                 d=d.replace(tzinfo=None)
                 coins=Coin.objects.get(coin_ticker=str(ticker['symbol'])+" "+str(ticker['name']))
 
-                window=20
+                window=10
                 sum=0
                 if coins.value_set.order_by('-reqtime').count()>window:
                     for  smas in coins.value_set.order_by('-reqtime')[:window]:
