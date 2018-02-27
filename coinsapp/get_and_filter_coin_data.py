@@ -100,7 +100,7 @@ def get_my_coin_data():
                 if coins.value_set.order_by('-reqtime').count()>window:
                     for  smas in coins.value_set.order_by('-reqtime')[:window]:
                         sum=sum+smas.coin_value
-                sum=sum/20
+                sum=sum/window
 
 
                 v=coins.value_set.create(coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume, sma=sum)
