@@ -35,3 +35,9 @@ class Coinproperties(models.Model):
     coin_changehalf = models.FloatField(default=0)
     volume_changehalf = models.FloatField(default=0)
     #volumechnage_time = models.FloatField(default=0)
+
+class Gems(models.Model):
+    gem_name = models.CharField(max_length=40)
+    gemStartPrice = models.FloatField(default=0)
+    gemDip = models.FloatField(default=0)
+    gemReqtime = models.DateTimeField(default=datetime.now, blank=True)
