@@ -134,7 +134,7 @@ def make_coin_properties():
         price=symbol.value_set.last().coin_value
         sma=symbol.value_set.last().sma
         time=symbol.value_set.last().reqtime
-        if price  <  sma-0.02*price:
+        if price  <  sma-0.01*price and price_changehalf>0:
             dip=(sma-price)/sma*100
             print(dip)
             Gems.objects.update_or_create(gem_name=symbol.coin_ticker, defaults={'gemStartPrice':price,'gemDip':dip,'gemReqtime':time, 'coinid':symbol.id})
