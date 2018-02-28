@@ -55,12 +55,10 @@ def build_chart(request, coins_id):
         p.line( x,sma_20, legend="SMA 20", line_color="green", line_width=1 )
 
         sma_50 = movingaverage (y, 30)
-        p.line( x,sma_50, legend="SMA 30", line_color="pink", line_width=1 )
+        p.line( x,sma_50, legend="SMA 50", line_color="pink", line_width=1 )
 
-        sma_10 = movingaverage (y, 10)
-        p.line( x,sma_10, legend="SMA 10", line_color="red", line_width=1 )
 
-        p.circle( x,sMa, legend="SMAdB", fill_color="blue", size=4 )
+        p.line( x,sMa, legend="SMA 10", line_color="red", line_width=2  )
 
         p.toolbar.logo = None
         # add a line renderer with legend and line thickness
@@ -73,16 +71,22 @@ def build_chart(request, coins_id):
 
         x_h=[]
         y_h=[]
+        sMa_h=[]
         t=datetime.now()-timedelta(minutes=60)
         for values in c.value_set.filter(reqtime__gt=t).order_by('reqtime'):
             x_h.append(values.reqtime)
             y_h.append(values.coin_value)
+            if values.sma == 0.0:
+                sMa_h.append(nan)
+            else:
+                sMa_h.append(values.sma)
 
         #sma_ = movingaverage (y, 5)
         p_h = figure(title=c.coin_ticker, x_axis_label='Time', y_axis_label='Price', x_axis_type='datetime', height=250)
         p_h.toolbar.logo = None
         # add a line renderer with legend and line thickness
-        p_h.line(x_h, y_h, legend=c.coin_ticker, line_width=2)
+        p_h.line(x_h, y_h, legend=c.coin_ticker, line_color="green", line_width=2)
+        p_h.line(x_h, sMa_h, legend="SMA 10",  line_color="red", line_width=1)
         p_h.circle(x_h, y_h, fill_color="white", size=8)
         p_h.sizing_mode = 'scale_width'
         p_h.legend.location = "bottom_left"
