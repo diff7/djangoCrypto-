@@ -3,7 +3,7 @@ from django.shortcuts import render, render_to_response
 from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 from bokeh.resources import CDN
-from models import Coin, Value, Coinproperties
+from models import Coin, Value, Coinproperties, Gems
 from django.http import Http404
 from datetime import datetime, timedelta
 import numpy as np
@@ -13,8 +13,9 @@ def all_coindata(request):
 
     coins_list = Coin.objects.order_by('-coinproperties__coin_changehalf')
     properties = Coinproperties.objects.all()
+    gems = Gems.objects.all()
     # value_list_recent= value_list_recent["coin_value"]
-    context = {'coins_list': coins_list, 'properties':properties}
+    context = {'coins_list': coins_list, 'properties':properties, 'gems':gems}
     return render(request, 'coinsapp/index.html', context)
 
 def build_chart(request, coins_id):

@@ -3,7 +3,8 @@ import ccxt
 from coinsapp.models import Coin, Value, Coinproperties
 import requests
 from datetime import datetime, timedelta
-from coinsapp.models import Coin, Value, Coinproperties
+from coinsapp.models import Coin, Value, Coinproperties, Gems
+from coinsapp.my_telegram import send_to_telegram
 
 def get_coinmarketcap():
     r = requests.get('https://api.coinmarketcap.com/v1/ticker/?limit=0')
@@ -86,60 +87,64 @@ def get_my_coin_data():
         if ticker['symbol'] in my_symbols:
 
             price = ticker['price_usd']
-            basevolume = ticker['market_cap_usd']
 
-
-            if (price is not None) and (basevolume is not None):
+            if price is not None:
 
                 d=datetime.now()
                 d=d.replace(tzinfo=None)
                 coins=Coin.objects.get(coin_ticker=str(ticker['symbol'])+" "+str(ticker['name']))
 
                 window=10
-                sum=0
+                sMa=0
                 if coins.value_set.order_by('-reqtime').count()>window:
                     for  smas in coins.value_set.order_by('-reqtime')[:window]:
-                        sum=sum+smas.coin_value
-                sum=sum/window
+                        sMa=sMa+smas.coin_value
+                sMa=sMa/window
 
 
-                v=coins.value_set.create(coin_value=price, reqtime=datetime.now(),coin_basevolume=basevolume, sma=sum)
+                v=coins.value_set.create(coin_value=price, reqtime=datetime.now(), sma=sMa)
+
+
                 v.save()
 
 
 def make_coin_properties():
     t=datetime.now()-timedelta(hours=2)
-    t_half=datetime.now()-timedelta(minutes=30)
-    coins=Coin.objects.exclude(value__coin_value__isnull=True, value__coin_basevolume__isnull=True )
+    t_half=datetime.now()-timedelta(minutes=10)
+    coins=Coin.objects.exclude(value__coin_value__isnull=True)
 
     for symbol in coins:
 
         volume=symbol.value_set.filter(reqtime__gt=t).order_by('reqtime')
 
-
-        #VOLUME CHANGE 1 HOUR
-        Firstvolume=volume.first().coin_basevolume
-        Lastvolume=volume.last().coin_basevolume
-        volumechange=(Lastvolume-Firstvolume)/Firstvolume*100
-
-        #PRICE CHANGE 1 HOUR
+        #PRICE CHANGE 2 HOURS
         Lastprice=volume.last().coin_value
         Firstprice=volume.first().coin_value
         price_change=(Lastprice-Firstprice)/Firstprice*100
 
         volume_half=symbol.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
 
-        #VOLUME CHANGE 30 MIN
-        Last_volumehalf=volume_half.last().coin_basevolume
-        First_volumehalf=volume_half.first().coin_basevolume
-        volume_changehalf=(Last_volumehalf-First_volumehalf)/First_volumehalf*100
+        #PRICE CHANEG 10 MIN
+        if volume_half.count() > 2:
+            Last_pricehalf=volume_half.last().coin_value
+            First_pricehalf=volume_half.first().coin_value
+            price_changehalf=(Last_pricehalf-First_pricehalf)/First_pricehalf*100
+            p=symbol.coinproperties_set.update_or_create(coin=symbol.coin_ticker,  defaults={'coin_change':price_change, 'coin_changehalf':price_changehalf })
 
-        #PRICE CHANEG 30 MIN
-        Last_pricehalf=volume_half.last().coin_value
-        First_pricehalf=volume_half.first().coin_value
-        price_changehalf=(Last_pricehalf-First_pricehalf)/First_pricehalf*100
+        price=symbol.value_set.last().coin_value
+        sma=symbol.value_set.last().sma
+        time=symbol.value_set.last().reqtime
+        if price  <  sma-0.02*price:
+            dip=(sma-price)/sma*100
+            print(dip)
+            Gems.objects.update_or_create(gem_name=symbol.coin_ticker, defaults={'gemStartPrice':price,'gemDip':dip,'gemReqtime':time, 'coinid':symbol.id})
+            message='Potential ' + str(round(dip, 2)) + '%  DIP, check the graph here: <a href="http://139.59.127.165/'+str(symbol.id)+'">'+str(symbol.coin_ticker)+'</a>'
+            print(message)
+            send_to_telegram(message)
+        elif Gems.objects.filter(gem_name=symbol.coin_ticker).exists():
+             Gems.objects.get(gem_name=symbol.coin_ticker).delete()
 
-        p=symbol.coinproperties_set.update_or_create(coin=symbol.coin_ticker,  defaults={'coin_change':price_change, 'volume_change':volumechange,'coin_changehalf':price_changehalf, 'volume_changehalf':volume_changehalf  })
+
 
 
 

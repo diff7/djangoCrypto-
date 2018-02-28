@@ -10,16 +10,40 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg">
+          {% if  gems %}
+          <table class="table  table-bordered">
+          <div style="width:100%"> <h3 style="text-align:center; background-color: #212529; color:#99B77B; padding:5px; margin-bottom:0px ;">tasty DIPs</h3></div>
+
+
+            <tr>
+          <th scope="col">COIN Name</th>
+          <th scope="col" >DIP %</th>
+          <th scope="col">Start price</th>
+            </tr>
+
+            {% for records in gems %}
+
+            <tr>
+
+              <th> <a style="color:#99B77B;" href="/{{ records.coinid }}/">{{ records.gem_name }}</a> </th>
+              <td>{{ records.gemDip }}%</td>
+              <td>{{ records.gemStartPrice }}$</td>
+
+
+            </tr>
+              {% endfor %}
+          </table>
+          {% else %}
+          <div style="width:100%"> <h3 style="text-align:center; background-color: #212529; color:#99B77B; padding:5px; margin-bottom:0px ;">Sorry, no DIPs now</h3></div>
+          {% endif %}
 
 <table class="table table-dark  table-bordered">
 <div style="width:100%"> <h3 style="text-align:center; background-color: #212529; color:#99B77B; padding:5px; margin-bottom:0px ;">Coins data from Coinmarketcap</h3></div>
   <tr>
-<th scope="col">COIN to USD</th>
-<th scope="col" >price</th>
+<th scope="col">COIN Name</th>
+<th scope="col" >price $</th>
 <th scope="col">price change 2 h</th>
-<th scope="col">volume change 2 h</th>
-<th scope="col">price change 30 min</th>
-<th scope="col">volume change 30 min</th>
+<th scope="col">price change 10 min</th>
   </tr>
 
   {% for coins in coins_list %}
@@ -30,9 +54,8 @@
 
     <td> {{ coins.value_set.all.last.coin_value }} $</td>
     <td>{{ coins.coinproperties_set.all.last.coin_change }}%</td>
-    <td>{{ coins.coinproperties_set.all.last.volume_change }}%</td>
     <td>{{ coins.coinproperties_set.all.last.coin_changehalf }}%</td>
-    <td>{{ coins.coinproperties_set.all.last.volume_changehalf }}%</td>
+
 
   </tr>
     {% endfor %}

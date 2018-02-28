@@ -41,3 +41,4 @@ class Gems(models.Model):
     gemStartPrice = models.FloatField(default=0)
     gemDip = models.FloatField(default=0)
     gemReqtime = models.DateTimeField(default=datetime.now, blank=True)
+    coinid =  models.IntegerField(default=0)
