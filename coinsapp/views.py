@@ -54,8 +54,8 @@ def build_chart(request, coins_id):
         sma_20 = movingaverage (y, 20)
         p.line( x,sma_20, legend="SMA 20", line_color="green", line_width=1 )
 
-        sma_30 = movingaverage (y, 30)
-        p.line( x,sma_30, legend="SMA 30", line_color="pink", line_width=1 )
+        sma_50 = movingaverage (y, 30)
+        p.line( x,sma_50, legend="SMA 30", line_color="pink", line_width=1 )
 
         sma_10 = movingaverage (y, 10)
         p.line( x,sma_10, legend="SMA 10", line_color="red", line_width=1 )
