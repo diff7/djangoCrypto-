@@ -115,11 +115,11 @@ def make_coin_properties():
 
     for symbol in coins:
 
-        volume=symbol.value_set.filter(reqtime__gt=t).order_by('reqtime')
+        coin_instance=symbol.value_set.filter(reqtime__gt=t).order_by('reqtime')
 
         #PRICE CHANGE 2 HOURS
-        Lastprice=volume.last().coin_value
-        Firstprice=volume.first().coin_value
+        Lastprice=coin_instance.last().coin_value
+        Firstprice=coin_instance.first().coin_value
         price_change=(Lastprice-Firstprice)/Firstprice*100
 
         volume_half=symbol.value_set.filter(reqtime__gt=t_half).order_by('reqtime')
@@ -134,7 +134,8 @@ def make_coin_properties():
         price=symbol.value_set.last().coin_value
         sma=symbol.value_set.last().sma
         time=symbol.value_set.last().reqtime
-        if price  <  sma-0.01*price and symbol.coinproperties_set.last().coin_changehalf>0:
+
+        if price  <  sma-0.01*price and symbol.coinproperties_set.last().coin_changehalf>0 and symbol.coinproperties_set.last().coin_change>0:
             dip=(sma-price)/sma*100
             print(dip)
             Gems.objects.update_or_create(gem_name=symbol.coin_ticker, defaults={'gemStartPrice':price,'gemDip':dip,'gemReqtime':time, 'coinid':symbol.id})
