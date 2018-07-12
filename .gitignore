@@ -1,7 +1,5 @@
 celerybeat.pid
 cryptoproject/settings.pyc
-cryptoproject/settings.py
-dev_book.ipynb
 *.pyc
 .ipynb_checkpoints
 coinsapp/views.pyc
