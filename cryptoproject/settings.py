@@ -138,7 +138,7 @@ STATIC_URL = '/static/'
 
 
 
-# from datetime import timedelta
+from datetime import timedelta
 # # CELERY STUFF
 #
 # #CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
