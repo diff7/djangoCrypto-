@@ -16,18 +16,20 @@ def get_my_symbols():
     exchange.load_markets()
 
     binance_symbols=exchange.symbols
-    binance_symbols.remove('123/456')
-    binance_symbols.remove('CHAT/BTC')
-    binance_symbols.remove('CHAT/ETH')
-    binance_symbols.remove('BCD/BTC')
-    binance_symbols.remove('BCD/ETH')
+    try:
+        binance_symbols.remove('CHAT/BTC')
+        binance_symbols.remove('CHAT/ETH')
+        binance_symbols.remove('BCD/BTC')
+        binance_symbols.remove('BCD/ETH')
 
-    binance_symbols.remove('RCN/ETH')
-    binance_symbols.remove('RCN/BTC')
-    binance_symbols.remove('BAT/ETH')
-    binance_symbols.remove('BAT/BTC')
-    binance_symbols.remove('BAT/BNB')
-    binance_symbols.remove('RCN/BNB')
+        binance_symbols.remove('RCN/ETH')
+        binance_symbols.remove('RCN/BTC')
+        binance_symbols.remove('BAT/ETH')
+        binance_symbols.remove('BAT/BTC')
+        binance_symbols.remove('BAT/BNB')
+        binance_symbols.remove('RCN/BNB')
+    except:
+        pass
 
     binance_symbols_clean=[]
     for ticker in binance_symbols:

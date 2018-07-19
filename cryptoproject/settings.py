@@ -25,7 +25,7 @@ SECRET_KEY = 'y0z0j))mk9h4c=zl$*r)4-yu@i!lfpkz9o_rkpfzuhtc4*6me9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','139.59.127.165']
+ALLOWED_HOSTS = ['localhost','139.59.127.165','127.0.0.1','0.0.0.0']
 
 
 # Application definition
@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # to include the app in the project, name format is App name with first capital character + Config = .CoinsappConfig
-    'django_celery_beat',
+    # 'django_celery_beat',
     'django_extensions',
     'bootstrap4',
-    'django_celery_monitor',
+    # 'django_celery_monitor',
 ]
 
 MIDDLEWARE = [
@@ -138,20 +138,20 @@ STATIC_URL = '/static/'
 
 
 
-from datetime import timedelta
-# CELERY STUFF
-
-#CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
-
-
-import urlparse
-
-BROKER_TRANSPORT_OPTIONS = {
-    "max_connections": 2,
-}
-
-# UNCOMMENT FOR PROD
-
+# from datetime import timedelta
+# # CELERY STUFF
+#
+# #CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
+#
+#
+# import urlparse
+#
+# BROKER_TRANSPORT_OPTIONS = {
+#     "max_connections": 2,
+# }
+#
+# # UNCOMMENT FOR PROD
+#
 BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
@@ -161,10 +161,10 @@ CELERY_TIMEZONE = 'Africa/Nairobi'
 CELERY_ENABLE_UTC = True
 CELERY_IMPORTS=("coinsapp.tasks")
 CELERY_BEAT_SCHEDULE = {
-    # 'get_market': {
-    #     'task': 'coinsapp.tasks.get_all_markets',
-    #     'schedule':  timedelta(minutes=1),
-    #         },
+    'get_market': {
+        'task': 'coinsapp.tasks.get_all_markets',
+        'schedule':  timedelta(minutes=1),
+            },
     'main-task': {
         'task': 'coinsapp.tasks.get_coin_data',
         'schedule':  timedelta(minutes=5),
